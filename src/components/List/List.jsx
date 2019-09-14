@@ -18,7 +18,7 @@ const List = ({ vimeoData, youTubeData, isLoadingYouTube, isLoadingVimeo, allIte
                         <div className="img" style={{ backgroundImage: `url(${el.img})`}}></div>
                         <div className="title">{el.name}</div>
                     </div> )}
-                { isLoadingYouTube || isLoadingVimeo ? <Loader/> : null }
+                {/* { isLoadingYouTube || isLoadingVimeo ? <Loader/> : null } */}
             </div>
         )
     } else return null

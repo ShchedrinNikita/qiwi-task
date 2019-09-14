@@ -1,4 +1,5 @@
 import React from 'react'
+import './Search.scss'
 
 const Search = ({ setSearchParam, searchParam, loadData }) => {
     const onChange = (e) => {
@@ -10,9 +11,9 @@ const Search = ({ setSearchParam, searchParam, loadData }) => {
     }
 
     return (
-        <form action="" onSubmit={onSubmit}>
+        <form action="" onSubmit={onSubmit} className="search-bar">
             <input type="text" onChange={onChange} value={searchParam} />
-            <button type="submit">Submit</button>
+            <button type="submit">Search</button>
         </form>
     )
 }

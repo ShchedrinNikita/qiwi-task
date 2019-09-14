@@ -24,14 +24,14 @@ function adaptVimeoItems(res) {
 
 export const getYouTubeByQ = async (searchParam) => {
     const res = await axios.get(
-    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${searchParam}&key=${YOUTUBE_API_KEY}`
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${searchParam}&key=${YOUTUBE_API_KEY}`
     );
     return adaptYoutubeItems(res);
 };
 
 export const getYouTubeByQAndToken = async (searchParam, nextPageToken) => {
     const res = await axios.get(
-    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${searchParam}&pageToken=${nextPageToken}&key=${YOUTUBE_API_KEY}`
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${searchParam}&pageToken=${nextPageToken}&key=${YOUTUBE_API_KEY}`
     );
     return adaptYoutubeItems(res);
 }

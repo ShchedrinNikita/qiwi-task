@@ -1,4 +1,5 @@
 import React from 'react'
+import './LoadMore.scss'
 
 const LoadMore = ({ loadMoreData }) => {
     return (

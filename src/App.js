@@ -3,6 +3,7 @@ import { getYouTubeByQ, getYouTubeByQAndToken, getVimeoByQ, getVimeoByPageNumber
 import List from './components/List/List'
 import Search from './components/Search/Search'
 import LoadMore from './components/LoadMore/LoadMore'
+import Loader from './components/Loader/Loader'
 
 export default class App extends Component {
   state = {
@@ -89,12 +90,12 @@ export default class App extends Component {
   } 
 
   mergeData = () => {
+    const { youTubeData, vimeoData, isLoadingYouTube, isLoadingVimeo } = this.state
     let data = []
-    console.log(!this.state.isLoadingYouTube && !this.state.isLoadingVimeo)
-        if(!this.state.isLoadingYouTube && !this.state.isLoadingVimeo) {
-            for(let i = 0; i < this.state.youTubeData.items.length; i++) {
-                if(this.state.vimeoData.items[i]) data.push({...this.state.vimeoData.items[i], type: 'vd'})
-                if(this.state.youTubeData.items[i]) data.push({...this.state.youTubeData.items[i], type: 'yt'})
+        if(!isLoadingYouTube && !isLoadingVimeo) {
+            for(let i = 0; i < youTubeData.items.length; i++) {
+                if(vimeoData.items[i]) data.push({...vimeoData.items[i], type: 'vd'})
+                if(youTubeData.items[i]) data.push({...youTubeData.items[i], type: 'yt'})
             }
         }
     this.setState({
@@ -104,10 +105,10 @@ export default class App extends Component {
   render() {
     const { youTubeData, vimeoData, isLoadingYouTube, isLoadingVimeo, allItems, searchParam } = this.state
     return (
-      <div>
+      <div className="app">
         <Search setSearchParam={this.setSearchParam} searchParam={searchParam} loadData={this.loadData}/>
-        {/* {!youTubeData.items.length || !vimeoData.items.length  ? null : <List youTubeData={youTubeData} vimeoData={vimeoData} isLoadingYouTube={isLoadingYouTube} isLoadingVimeo={isLoadingVimeo}/>} */}
         {!youTubeData.items.length || !vimeoData.items.length  ? null : <List allItems={allItems} isLoadingYouTube={isLoadingYouTube} isLoadingVimeo={isLoadingVimeo}/>}
+        { isLoadingYouTube || isLoadingVimeo ? <Loader/> : null }
         <LoadMore loadMoreData={this.loadMoreData} />
       </div>
     )

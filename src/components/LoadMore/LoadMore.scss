@@ -1,0 +1,10 @@
+.load-more {
+    margin: 20px 0px 20px 0;
+    padding: 10px;
+    background-color: #64B1E5;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+        box-shadow: 0px 2px 10px #315EFE;
+    }
+}
