@@ -1,12 +1,12 @@
 import React from 'react'
 
-const Search = ({ setSearchParam, searchParam, loadYouTubeData }) => {
+const Search = ({ setSearchParam, searchParam, loadData }) => {
     const onChange = (e) => {
         setSearchParam(e.target.value)
     }
     const onSubmit = (e) => {
         e.preventDefault()
-        loadYouTubeData()
+        if (searchParam) {loadData()}
     }
 
     return (

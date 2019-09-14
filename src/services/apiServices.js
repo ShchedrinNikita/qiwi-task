@@ -1,8 +1,8 @@
 import axios from 'axios'
-const API_KEY = 'AIzaSyBTdUI76B0gkpBPWF_XIbop07CT9rgm9j0'
+const YOUTUBE_API_KEY = 'AIzaSyCDLzL8YpJSctnTytnfJgyXm5JcAEhYQaY'
+const VIMEO_API_KEY = '0dfad0d7202831db0f333986018ab2a0'
 
 function adaptYoutubeItems(res) {
-    console.log(res)
     return {
     items: res.data.items.map(el => ({
         name: el.snippet.title,
@@ -12,16 +12,42 @@ function adaptYoutubeItems(res) {
     }
 }
 
+function adaptVimeoItems(res) {
+    return {
+    items: res.data.data.map(el => ({
+        name: el.name,
+        img: el.pictures.sizes[3].link
+    })),
+    nextPageToken: res.data.paging.next.slice(-1)
+    }
+}
+
 export const getYouTubeByQ = async (searchParam) => {
     const res = await axios.get(
-    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchParam}&key=${API_KEY}`
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${searchParam}&key=${YOUTUBE_API_KEY}`
     );
     return adaptYoutubeItems(res);
 };
 
 export const getYouTubeByQAndToken = async (searchParam, nextPageToken) => {
     const res = await axios.get(
-    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchParam}&pageToken=${nextPageToken}&key=${API_KEY}`
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${searchParam}&pageToken=${nextPageToken}&key=${YOUTUBE_API_KEY}`
     );
     return adaptYoutubeItems(res);
+}
+
+export const getVimeoByQ = async (searchParam) => {
+    if (!searchParam) searchParam = 'a'
+    const res = await axios.get(
+        `https://api.vimeo.com/videos?query=${searchParam}&per_page=20&access_token=${VIMEO_API_KEY}`
+        );
+    return adaptVimeoItems(res);
+}
+
+export const getVimeoByPageNumber = async (searchParam, nextPageToken) => {
+    if (!searchParam) searchParam = 'a'
+    const res = await axios.get(
+        `https://api.vimeo.com/videos?query=${searchParam}&per_page=20&access_token=${VIMEO_API_KEY}&page=${nextPageToken}`
+        );
+    return adaptVimeoItems(res);
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 
-const LoadMore = ({ loadMoreYouTubeData }) => {
+const LoadMore = ({ loadMoreData }) => {
     return (
-        <div className="load-more" onClick={loadMoreYouTubeData}>Load more.</div>
+        <div className="load-more" onClick={loadMoreData}>Load more.</div>
     )
 }
 
