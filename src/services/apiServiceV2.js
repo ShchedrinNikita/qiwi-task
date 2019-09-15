@@ -1,5 +1,5 @@
 import axios from 'axios'
-const YOUTUBE_API_KEY = 'AIzaSyBTdUI76B0gkpBPWF_XIbop07CT9rgm9j0'
+const YOUTUBE_API_KEY = 'AIzaSyDFv2JuyoLydgfC7bACTmmFpunmZtLr8Gk'
 const VIMEO_API_KEY = '0dfad0d7202831db0f333986018ab2a0'
 
 const loadYouTubeData = (searchParam, pageToken, type) => {
@@ -14,7 +14,6 @@ const loadYouTubeData = (searchParam, pageToken, type) => {
 }
 
 const loadVimeoData = (searchParam, pageToken, type) => {
-    if (!searchParam) searchParam = 'a'
     if (!pageToken && type === 'more') return ({
         data: {
             data: [],
@@ -44,9 +43,7 @@ export const loadData = async (searchParam, pageTokenYouTube, pageTokenVimeo, ty
         result.pageTokenYouTube = data[0].data.nextPageToken
         result.pageTokenVimeo = data[1].data.paging.next ? data[1].data.paging.next.split('=').slice(-1)[0] : null
         dataYouTube = adaptYoutubeItems(data[0].data.items)
-        
         dataVimeo = adaptVimeoItems(data[1].data.data)
-
     }
     else {
         lengthYouTube = data[1].data.items.length
@@ -54,7 +51,6 @@ export const loadData = async (searchParam, pageTokenYouTube, pageTokenVimeo, ty
         result.pageTokenYouTube = data[1].data.nextPageToken
         result.pageTokenVimeo = data[0].data.paging.next ? data[0].data.paging.next.split('=').slice(-1)[0] : null
         dataYouTube = adaptYoutubeItems(data[1].data.items)
-        
         dataVimeo = adaptVimeoItems(data[0].data.data)
     }
     lengthYouTube > lengthVimeo ? maxLength = lengthYouTube : maxLength = lengthVimeo

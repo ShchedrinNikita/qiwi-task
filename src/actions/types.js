@@ -1,3 +1,4 @@
 export const SET_SEARCH_PARAM = 'SET_SEARCH_PARAM'
 export const SET_VIDEO_ITEMS = 'SET_VIDEO_ITEMS'
 export const SET_PAGE_TOKENS = 'SET_PAGE_TOKENS'
+export const SET_LOADING = 'SET_LOADING'
