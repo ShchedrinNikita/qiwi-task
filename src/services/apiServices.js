@@ -8,7 +8,7 @@ function adaptYoutubeItems(res) {
         name: el.snippet.title,
         img: el.snippet.thumbnails.high.url
     })),
-    nextPageToken: res.data.nextPageToken
+    nextPageToken: res.data.nextPageToken ? res.data.nextPageToken : null
     }
 }
 
