@@ -4,8 +4,11 @@ import List from './components/List/List'
 import Search from './components/Search/Search'
 import LoadMore from './components/LoadMore/LoadMore'
 import Loader from './components/Loader/Loader'
+import { connect } from 'react-redux'
+import { loadData as loadDataV2 } from './services/apiServiceV2'
 
-export default class App extends Component {
+
+class App extends Component {
   state = {
     youTubeData: {
       items: [],
@@ -22,7 +25,7 @@ export default class App extends Component {
   }
 
   loadYouTubeData = async () => {
-    const { searchParam } = this.state
+    const { searchParam } = this.props
     this.setState({ isLoadingYouTube: true })
     const data = await getYouTubeByQ(searchParam)
     this.setState({
@@ -32,7 +35,7 @@ export default class App extends Component {
   }
 
   loadVimeoData = async () => {
-    const { searchParam } = this.state
+    const { searchParam } = this.props
     this.setState({ isLoadingVimeo: true })
     const data = await getVimeoByQ(searchParam)
     this.setState({
@@ -42,7 +45,8 @@ export default class App extends Component {
   }
 
   loadMoreYouTubeData = async () => {
-    const { searchParam, youTubeData } = this.state
+    const {  youTubeData } = this.state
+    const {  searchParam } = this.props
     this.setState({ isLoadingYouTube: true })
     const data = await getYouTubeByQAndToken(searchParam, youTubeData.nextPageToken)
     if (!data)  { this.setState({ youTubeData: {isLoadingYouTube: false}})}
@@ -58,7 +62,8 @@ export default class App extends Component {
   }
   
   loadMoreVimeoData = async () => {
-    const { searchParam, vimeoData } = this.state
+    const { vimeoData } = this.state
+    const { searchParam } = this.props
     this.setState({ isLoadingVimeo: true })
     const data = await getVimeoByPageNumber(searchParam, vimeoData.nextPageToken)
     if(!data) { this.setState({vimeoData: {isLoadingVimeo: false}})}
@@ -73,9 +78,10 @@ export default class App extends Component {
     }
   }
  
-  componentDidMount() {
-    this.loadData()
-  }
+  // componentDidMount() {
+  //   this.loadData()
+  //   loadDataV2('nba').then(res => console.log(res))
+  // }
 
   loadData = async() => {
     await this.loadYouTubeData()
@@ -83,11 +89,11 @@ export default class App extends Component {
     this.mergeData()
   }
 
-  setSearchParam = async (searchParam) => {
-    this.setState({
-      searchParam
-    })
-  }
+  // setSearchParam = async (searchParam) => {
+  //   this.setState({
+  //     searchParam
+  //   })
+  // }
 
   loadMoreData = async () => { 
     if (this.state.vimeoData.nextPageToken) {await this.loadMoreVimeoData()};
@@ -109,15 +115,19 @@ export default class App extends Component {
     })
   }
   render() {
-    const { youTubeData, vimeoData, isLoadingYouTube, isLoadingVimeo, allItems, searchParam } = this.state
+    const { youTubeData, vimeoData, isLoadingYouTube, isLoadingVimeo, allItems } = this.state
     return (
       <div className="app">
-        <Search setSearchParam={this.setSearchParam} searchParam={searchParam} loadData={this.loadData}/>
-        {!youTubeData.items.length || !vimeoData.items.length  ? null : <List allItems={allItems} isLoadingYouTube={isLoadingYouTube} isLoadingVimeo={isLoadingVimeo}/>}
+        <Search loadData={this.loadData}/>
+        <List allItems={allItems} isLoadingYouTube={isLoadingYouTube} isLoadingVimeo={isLoadingVimeo}/>
         { isLoadingYouTube || isLoadingVimeo ? <Loader/> : null }
         <LoadMore loadMoreData={this.loadMoreData} />
       </div>
     )
   }
 }
+const mapStateToProps = (state) => ({
+  searchParam: state.search.searchParam
+})
+export default connect(mapStateToProps)(App)
 

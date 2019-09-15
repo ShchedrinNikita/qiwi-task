@@ -1,10 +1,10 @@
 import React from 'react'
 import './LoadMore.scss'
 
-const LoadMore = ({ loadMoreData }) => {
+const LoadMore = ({ onClick }) => {
     return (
-        <div className="load-more" onClick={loadMoreData}>Load more.</div>
-    )
+        <div className="load-more" onClick={onClick}>Load more.</div>
+    )   
 }
 
 export default LoadMore

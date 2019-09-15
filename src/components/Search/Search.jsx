@@ -1,13 +1,24 @@
 import React from 'react'
 import './Search.scss'
+import { connect } from 'react-redux'
+import { setSearchParam } from '../../actions/search-actions'
+import { setPageTokens, setVideoItems } from '../../actions/video-data-actions'
+import { loadData } from '../../services/apiServiceV2'
 
-const Search = ({ setSearchParam, searchParam, loadData }) => {
+const Search = ({ searchParam, setVideoItems, setPageTokens, setSearchParam }) => {
     const onChange = (e) => {
         setSearchParam(e.target.value)
     }
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
-        if (searchParam) {loadData()}
+        if (!searchParam) return
+        const data = await loadData(searchParam, null, null, 'load')
+        console.log(data)
+        setVideoItems(data.items)
+        setPageTokens({
+            pageTokenYouTube: data.pageTokenYouTube,
+            pageTokenVimeo: data.pageTokenVimeo
+        })
     }
 
     return (
@@ -17,5 +28,7 @@ const Search = ({ setSearchParam, searchParam, loadData }) => {
         </form>
     )
 }
-
-export default Search
+const mapStateToProps = (state) => ({
+    searchParam: state.search.searchParam
+})
+export default connect(mapStateToProps, {setSearchParam, setVideoItems, setPageTokens})(Search)

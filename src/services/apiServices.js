@@ -1,5 +1,5 @@
 import axios from 'axios'
-const YOUTUBE_API_KEY = 'AIzaSyCDLzL8YpJSctnTytnfJgyXm5JcAEhYQaY'
+const YOUTUBE_API_KEY = 'AIzaSyBTdUI76B0gkpBPWF_XIbop07CT9rgm9j0'
 const VIMEO_API_KEY = '0dfad0d7202831db0f333986018ab2a0'
 
 function adaptYoutubeItems(res) {
@@ -18,7 +18,7 @@ function adaptVimeoItems(res) {
         name: el.name,
         img: el.pictures.sizes[3].link
     })),
-    nextPageToken: res.data.paging.next ? res.data.paging.next.slice(-1) : null 
+    nextPageToken: res.data.paging.next ? res.data.paging.next.split('=').slice(-1)[0] : null 
     }
 }
 
