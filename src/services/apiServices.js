@@ -18,7 +18,7 @@ function adaptVimeoItems(res) {
         name: el.name,
         img: el.pictures.sizes[3].link
     })),
-    nextPageToken: res.data.paging.next.slice(-1)
+    nextPageToken: res.data.paging.next ? res.data.paging.next.slice(-1) : null 
     }
 }
 
@@ -39,7 +39,7 @@ export const getYouTubeByQAndToken = async (searchParam, nextPageToken) => {
 export const getVimeoByQ = async (searchParam) => {
     if (!searchParam) searchParam = 'a'
     const res = await axios.get(
-        `https://api.vimeo.com/videos?query=${searchParam}&per_page=20&access_token=${VIMEO_API_KEY}`
+        `https://api.vimeo.com/videos?query=${searchParam}&per_page=5&access_token=${VIMEO_API_KEY}`
         );
     return adaptVimeoItems(res);
 }
@@ -47,7 +47,7 @@ export const getVimeoByQ = async (searchParam) => {
 export const getVimeoByPageNumber = async (searchParam, nextPageToken) => {
     if (!searchParam) searchParam = 'a'
     const res = await axios.get(
-        `https://api.vimeo.com/videos?query=${searchParam}&per_page=20&access_token=${VIMEO_API_KEY}&page=${nextPageToken}`
+        `https://api.vimeo.com/videos?query=${searchParam}&per_page=5&access_token=${VIMEO_API_KEY}&page=${nextPageToken}`
         );
     return adaptVimeoItems(res);
 }

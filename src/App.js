@@ -45,26 +45,32 @@ export default class App extends Component {
     const { searchParam, youTubeData } = this.state
     this.setState({ isLoadingYouTube: true })
     const data = await getYouTubeByQAndToken(searchParam, youTubeData.nextPageToken)
-    this.setState({
-      youTubeData: {
-        items: [...youTubeData.items, ...data.items],
-        nextPageToken: data.nextPageToken,
-      },
-      isLoadingYouTube: false
-    })
+    if (!data)  { this.setState({ youTubeData: {isLoadingYouTube: false}})}
+    else {
+      this.setState({
+        youTubeData: {
+          items: [...youTubeData.items, ...data.items],
+          nextPageToken: data.nextPageToken,
+        },
+        isLoadingYouTube: false
+      })
+    }
   }
   
   loadMoreVimeoData = async () => {
     const { searchParam, vimeoData } = this.state
     this.setState({ isLoadingVimeo: true })
     const data = await getVimeoByPageNumber(searchParam, vimeoData.nextPageToken)
-    this.setState({
-      vimeoData: {
-        items: [...vimeoData.items, ...data.items],
-        nextPageToken: data.nextPageToken,
-      },
-      isLoadingVimeo: false
-    })
+    if(!data) { this.setState({vimeoData: {isLoadingVimeo: false}})}
+    else {
+      this.setState({
+        vimeoData: {
+          items: [...vimeoData.items, ...data.items],
+          nextPageToken: data.nextPageToken,
+        },
+        isLoadingVimeo: false
+      })
+    }
   }
  
   componentDidMount() {
@@ -84,8 +90,8 @@ export default class App extends Component {
   }
 
   loadMoreData = async () => { 
-    await this.loadMoreVimeoData();
-    await this.loadMoreYouTubeData();
+    if (this.state.vimeoData.nextPageToken) {await this.loadMoreVimeoData()};
+    if (this.state.youTubeData.nextPageToken) {await this.loadMoreYouTubeData()};
     this.mergeData()
   } 
 
