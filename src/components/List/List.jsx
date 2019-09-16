@@ -41,6 +41,5 @@ const mapStateToProps = (state) => ({
     pageTokenVimeo: state.videoData.pageTokenVimeo,
     allItems: state.videoData.items,
     searchParam: state.search.searchParam,
-    isLoading: state.loading.isLoading
 })
 export default connect(mapStateToProps, {setVideoItems, setPageTokens, setLoading})(List)
