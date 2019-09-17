@@ -28,7 +28,6 @@ const loadVimeoData = (searchParam, pageToken, type) => {
 
 export const loadData = async (searchParam, pageTokenYouTube, pageTokenVimeo, type) => {
     const data = await Promise.all([loadYouTubeData(searchParam, pageTokenYouTube, type), loadVimeoData(searchParam, pageTokenVimeo, type)])
-    console.log(data)
     let lengthYouTube
     let lengthVimeo
     let dataYouTube
