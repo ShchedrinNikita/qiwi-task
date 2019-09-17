@@ -12,10 +12,9 @@ const Search = ({ searchParam, setVideoItems, setPageTokens, setSearchParam, set
     }
     const onSubmit = async (e) => {
         e.preventDefault()
-        if (!searchParam) return
+        if (!searchParam || searchParam === '&') return
         setLoading(true)
         const data = await loadData(searchParam, null, null, 'load')
-        console.log(data)
         setVideoItems(data.items)
         setPageTokens({
             pageTokenYouTube: data.pageTokenYouTube,
@@ -32,7 +31,6 @@ const Search = ({ searchParam, setVideoItems, setPageTokens, setSearchParam, set
     )
 }
 const mapStateToProps = (state) => ({
-    searchParam: state.search.searchParam,
-    isLoading: state.loading.isLoading
+    searchParam: state.search.searchParam
 })
 export default connect(mapStateToProps, {setSearchParam, setVideoItems, setPageTokens, setLoading})(Search)

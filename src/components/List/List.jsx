@@ -9,15 +9,15 @@ import { setLoading } from '../../actions/loading-action'
 class List extends Component {
 
     loadMore = async() => {
-        this.props.setLoading(true)
-        const data = await loadData(this.props.searchParam, this.props.pageTokenYouTube, this.props.pageTokenVimeo, 'more')
-        console.log(data,  this.props.pageTokenYouTube, this.props.pageTokenVimeo)
-        this.props.setVideoItems([...this.props.allItems, ...data.items])
-        this.props.setPageTokens({
+        const { searchParam, pageTokenYouTube, pageTokenVimeo, allItems, setVideoItems, setPageTokens, setLoading } = this.props
+        setLoading(true)
+        const data = await loadData(searchParam, pageTokenYouTube, pageTokenVimeo, 'more')
+        setVideoItems([...allItems, ...data.items])
+        setPageTokens({
             pageTokenYouTube: data.pageTokenYouTube,
             pageTokenVimeo: data.pageTokenVimeo
         })
-        this.props.setLoading(false)
+        setLoading(false)
     }
     
     render() {
